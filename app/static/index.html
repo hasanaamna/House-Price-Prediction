@@ -1,0 +1,776 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Indian House Price Predictor</title>
+
+    <meta
+        name="description"
+        content="AI-powered Indian house price prediction using XGBoost machine learning."
+    >
+
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+
+<body>
+
+    <!-- =========================
+         HERO SECTION
+    ========================== -->
+
+    <header class="hero">
+
+        <div class="hero-content">
+
+            <div class="badge">
+                ✦ AI-Powered Real Estate Analytics
+            </div>
+
+            <h1>
+                Indian House
+                <span>Price Predictor</span>
+            </h1>
+
+            <p>
+                Estimate property prices using an XGBoost machine
+                learning model trained on Indian urban housing data.
+            </p>
+
+            <div class="hero-stats">
+
+                <div class="hero-stat">
+                    <strong>80K+</strong>
+                    <span>Properties</span>
+                </div>
+
+                <div class="hero-stat">
+                    <strong>78.95%</strong>
+                    <span>R² Score</span>
+                </div>
+
+                <div class="hero-stat">
+                    <strong>XGBoost</strong>
+                    <span>ML Model</span>
+                </div>
+
+            </div>
+
+        </div>
+
+    </header>
+
+
+    <!-- =========================
+         MAIN CONTENT
+    ========================== -->
+
+    <main class="main-container">
+
+        <section class="prediction-card">
+
+            <div class="section-heading">
+
+                <div>
+                    <p class="section-label">PROPERTY ESTIMATOR</p>
+
+                    <h2>
+                        Enter Property Details
+                    </h2>
+
+                    <p class="section-description">
+                        Provide the property characteristics below to
+                        generate an estimated market price.
+                    </p>
+                </div>
+
+            </div>
+
+
+            <form id="predictionForm">
+
+
+                <!-- =========================
+                     LOCATION
+                ========================== -->
+
+                <div class="form-section">
+
+                    <div class="form-section-title">
+                        <div class="section-icon">📍</div>
+
+                        <div>
+                            <h3>Location & Property Type</h3>
+                            <p>Tell us where the property is located.</p>
+                        </div>
+                    </div>
+
+
+                    <div class="form-grid">
+
+                        <div class="form-group">
+
+                            <label for="City">
+                                City
+                            </label>
+
+                            <select id="City" required>
+
+                                <option value="Mumbai">Mumbai</option>
+                                <option value="Delhi">Delhi</option>
+                                <option value="Bangalore">Bangalore</option>
+                                <option value="Chennai">Chennai</option>
+                                <option value="Hyderabad">Hyderabad</option>
+                                <option value="Pune">Pune</option>
+                                <option value="Kolkata">Kolkata</option>
+                                <option value="Jaipur">Jaipur</option>
+                                <option value="Ahmedabad">Ahmedabad</option>
+                                <option value="Chandigarh">Chandigarh</option>
+
+                            </select>
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label for="Locality_Type">
+                                Locality Type
+                            </label>
+
+                            <select id="Locality_Type" required>
+
+                                <option value="Premium">
+                                    Premium
+                                </option>
+
+                                <option value="Mid-Range">
+                                    Mid-Range
+                                </option>
+
+                                <option value="Affordable">
+                                    Affordable
+                                </option>
+
+                            </select>
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label for="Property_Type">
+                                Property Type
+                            </label>
+
+                            <select id="Property_Type" required>
+
+                                <option value="Apartment">
+                                    Apartment
+                                </option>
+
+                                <option value="Villa">
+                                    Villa
+                                </option>
+
+                                <option value="Builder Floor">
+                                    Builder Floor
+                                </option>
+
+                                <option value="Independent House">
+                                    Independent House
+                                </option>
+
+                            </select>
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label for="Furnishing_Status">
+                                Furnishing Status
+                            </label>
+
+                            <select id="Furnishing_Status" required>
+
+                                <option value="Furnished">
+                                    Furnished
+                                </option>
+
+                                <option value="Semi-Furnished">
+                                    Semi-Furnished
+                                </option>
+
+                                <option value="Unfurnished">
+                                    Unfurnished
+                                </option>
+
+                            </select>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- =========================
+                     PROPERTY DETAILS
+                ========================== -->
+
+                <div class="form-section">
+
+                    <div class="form-section-title">
+
+                        <div class="section-icon">
+                            🏠
+                        </div>
+
+                        <div>
+
+                            <h3>Property Details</h3>
+
+                            <p>
+                                Enter size, rooms and floor information.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="form-grid">
+
+
+                        <div class="form-group">
+
+                            <label for="BHK">
+                                BHK
+                            </label>
+
+                            <div class="input-wrapper">
+
+                                <input
+                                    type="number"
+                                    id="BHK"
+                                    value="3"
+                                    min="1"
+                                    max="6"
+                                    required
+                                >
+
+                                <span>rooms</span>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label for="Bathrooms">
+                                Bathrooms
+                            </label>
+
+                            <div class="input-wrapper">
+
+                                <input
+                                    type="number"
+                                    id="Bathrooms"
+                                    value="3"
+                                    min="1"
+                                    max="6"
+                                    required
+                                >
+
+                                <span>bath</span>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label for="Super_Area_SqFt">
+                                Super Area
+                            </label>
+
+                            <div class="input-wrapper">
+
+                                <input
+                                    type="number"
+                                    id="Super_Area_SqFt"
+                                    value="1800"
+                                    min="100"
+                                    required
+                                >
+
+                                <span>sq ft</span>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label for="Carpet_Area_SqFt">
+                                Carpet Area
+                            </label>
+
+                            <div class="input-wrapper">
+
+                                <input
+                                    type="number"
+                                    id="Carpet_Area_SqFt"
+                                    value="1400"
+                                    min="100"
+                                    required
+                                >
+
+                                <span>sq ft</span>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label for="Floor_Number">
+                                Floor Number
+                            </label>
+
+                            <input
+                                type="number"
+                                id="Floor_Number"
+                                value="10"
+                                min="0"
+                                required
+                            >
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label for="Total_Floors">
+                                Total Floors
+                            </label>
+
+                            <input
+                                type="number"
+                                id="Total_Floors"
+                                value="20"
+                                min="1"
+                                required
+                            >
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label for="Age_of_Property">
+                                Property Age
+                            </label>
+
+                            <div class="input-wrapper">
+
+                                <input
+                                    type="number"
+                                    id="Age_of_Property"
+                                    value="5"
+                                    min="0"
+                                    required
+                                >
+
+                                <span>years</span>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- =========================
+                     AMENITIES
+                ========================== -->
+
+                <div class="form-section">
+
+                    <div class="form-section-title">
+
+                        <div class="section-icon">
+                            ✨
+                        </div>
+
+                        <div>
+
+                            <h3>Amenities & Accessibility</h3>
+
+                            <p>
+                                Tell us about parking and nearby connectivity.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="form-grid">
+
+
+                        <div class="form-group">
+
+                            <label for="Parking">
+                                Parking
+                            </label>
+
+                            <select id="Parking" required>
+
+                                <option value="1">
+                                    Available
+                                </option>
+
+                                <option value="0">
+                                    Not Available
+                                </option>
+
+                            </select>
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label for="Lift_Available">
+                                Lift Available
+                            </label>
+
+                            <select id="Lift_Available" required>
+
+                                <option value="1">
+                                    Yes
+                                </option>
+
+                                <option value="0">
+                                    No
+                                </option>
+
+                            </select>
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label for="Gated_Community">
+                                Gated Community
+                            </label>
+
+                            <select id="Gated_Community" required>
+
+                                <option value="1">
+                                    Yes
+                                </option>
+
+                                <option value="0">
+                                    No
+                                </option>
+
+                            </select>
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label for="Distance_to_Metro_km">
+                                Distance to Metro
+                            </label>
+
+                            <div class="input-wrapper">
+
+                                <input
+                                    type="number"
+                                    step="0.1"
+                                    id="Distance_to_Metro_km"
+                                    value="2"
+                                    min="0"
+                                    required
+                                >
+
+                                <span>km</span>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label for="Distance_to_City_Center_km">
+                                Distance to City Center
+                            </label>
+
+                            <div class="input-wrapper">
+
+                                <input
+                                    type="number"
+                                    step="0.1"
+                                    id="Distance_to_City_Center_km"
+                                    value="8"
+                                    min="0"
+                                    required
+                                >
+
+                                <span>km</span>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- =========================
+                     ACTIONS
+                ========================== -->
+
+                <div class="form-actions">
+
+                    <button
+                        type="button"
+                        id="resetButton"
+                        class="reset-button"
+                    >
+                        Reset
+                    </button>
+
+                    <button
+                        type="submit"
+                        id="predictButton"
+                        class="predict-button"
+                    >
+                        <span id="buttonText">
+                            Predict House Price
+                        </span>
+
+                        <span
+                            id="buttonLoader"
+                            class="button-loader hidden"
+                        >
+                            Predicting...
+                        </span>
+
+                    </button>
+
+                </div>
+
+            </form>
+
+        </section>
+
+
+        <!-- =========================
+             RESULT
+        ========================== -->
+
+        <section
+            id="result"
+            class="result-card hidden"
+        >
+
+            <div class="result-icon">
+                ✓
+            </div>
+
+            <p class="result-label">
+                ESTIMATED PROPERTY VALUE
+            </p>
+
+            <h2 id="priceCrore">
+                ₹0.00 Crore
+            </h2>
+
+            <p
+                id="priceLakhs"
+                class="price-lakhs"
+            >
+                ₹0.00 Lakhs
+            </p>
+
+            <div class="result-note">
+                <span>AI-generated estimate</span>
+                <span>•</span>
+                <span>XGBoost Model</span>
+            </div>
+
+        </section>
+
+
+        <!-- =========================
+             ERROR
+        ========================== -->
+
+        <div
+            id="error"
+            class="error-card hidden"
+        >
+            <strong>Prediction failed</strong>
+
+            <p id="errorMessage">
+                Unable to generate prediction.
+            </p>
+        </div>
+
+
+        <!-- =========================
+             MODEL INFORMATION
+        ========================== -->
+
+        <section class="model-section">
+
+            <div class="model-heading">
+
+                <p class="section-label">
+                    MACHINE LEARNING MODEL
+                </p>
+
+                <h2>
+                    Built with Machine Learning
+                </h2>
+
+                <p>
+                    The application uses a tuned XGBoost regression
+                    model trained on 80,000 Indian property records.
+                </p>
+
+            </div>
+
+
+            <div class="model-grid">
+
+
+                <div class="model-card">
+
+                    <div class="model-card-icon">
+                        🎯
+                    </div>
+
+                    <div>
+
+                        <span>
+                            R² Score
+                        </span>
+
+                        <strong>
+                            0.7895
+                        </strong>
+
+                    </div>
+
+                </div>
+
+
+                <div class="model-card">
+
+                    <div class="model-card-icon">
+                        📉
+                    </div>
+
+                    <div>
+
+                        <span>
+                            RMSE
+                        </span>
+
+                        <strong>
+                            68.26 L
+                        </strong>
+
+                    </div>
+
+                </div>
+
+
+                <div class="model-card">
+
+                    <div class="model-card-icon">
+                        📊
+                    </div>
+
+                    <div>
+
+                        <span>
+                            MAE
+                        </span>
+
+                        <strong>
+                            32.01 L
+                        </strong>
+
+                    </div>
+
+                </div>
+
+
+                <div class="model-card">
+
+                    <div class="model-card-icon">
+                        🧠
+                    </div>
+
+                    <div>
+
+                        <span>
+                            Algorithm
+                        </span>
+
+                        <strong>
+                            XGBoost
+                        </strong>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =========================
+             FOOTER
+        ========================== -->
+
+        <footer>
+
+            <p>
+                Indian House Price Predictor
+            </p>
+
+            <span>
+                Built with Python • FastAPI • XGBoost • JavaScript
+            </span>
+
+        </footer>
+
+    </main>
+
+
+    <script src="/static/script.js"></script>
+
+</body>
+
+</html>
