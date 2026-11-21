@@ -106,3 +106,6 @@ def predict_price(house: HouseInput):
             float(predicted_price_inr), 2
         )
     }
+    
+    
+    
